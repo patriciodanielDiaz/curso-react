@@ -1,0 +1,61 @@
+#admin-section {
+  padding: 20px;
+  min-height: 100vh;
+}
+
+#admin-section h1 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+#admin-section p {
+  text-align: center;
+  color: #969696;
+  margin-top: 10px;
+}
+
+#admin-section form {
+    width: 50%;
+    padding: 20px;
+    margin: auto;
+}
+
+#admin-section form * {
+    display: block;
+    width: 100%;
+}
+
+#admin-section form label {
+    font-weight: bold;
+}
+
+#admin-section form input,
+#admin-section form textarea {
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: none;
+    border: 1px solid #c7c7c7;
+}
+
+#admin-section form button{
+    margin-top: 10px;
+    border: none;
+    padding: 8px 16px;
+    background-color: yellowgreen;
+    border-radius: 10px;
+    color: white;
+    cursor:pointer;
+}
+
+form button:hover {
+    background-color: #215a23;
+}
+
+button:disabled,
+form button:hover:disabled {
+    background-color: #c7c7c7;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
