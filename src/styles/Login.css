@@ -1,6 +1,7 @@
 #login-section {
   padding: 20px;
   min-height: 100vh;
+  width: 400px;
 }
 
 #login-section h1 {
@@ -15,7 +16,7 @@
 }
 
 #login-section form {
-    width: 50%;
+    min-width: 100%;
     padding: 20px;
     margin: auto;
 }
@@ -50,4 +51,14 @@
 
 #login-section form button:hover {
     background-color: #215a23;
-}   
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+}

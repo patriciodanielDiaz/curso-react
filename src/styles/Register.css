@@ -1,6 +1,7 @@
 #register-section {
   padding: 20px;
   min-height: 100vh;
+  min-width: 400px;
 }
 
 #register-section h1 {
@@ -15,7 +16,7 @@
 }
 
 #register-section form {
-    width: 50%;
+    width: 100%;
     padding: 20px;
     margin: auto;
 }
@@ -50,4 +51,14 @@
 
 #register-section form button:hover {
     background-color: #215a23;
-}   
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+}

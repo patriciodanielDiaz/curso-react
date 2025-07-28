@@ -1,49 +1,56 @@
-import { useEffect, useState } from "react";
-import Layout from "../components/Layout/Layout";
-import "../styles/Dashboard.css";
+import { use, useState, useEffect } from "react";
+import { useNavigate, useParams} from "react-router-dom";
 import { db } from "../config/firebase";
-import { collection, addDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
-import { generateSimpleSKU } from "../utils/generateSKU";
+import { collection, updateDoc, doc, getDoc } from "firebase/firestore";
+import Layout from "../components/Layout/Layout";
 
-const Dashboard = () => {
+
+const EditProduct = () => {
     const[productName, setProductName] = useState("");
     const[productPrice, setProductPrice] = useState("");
     const[productDescription, setProductDescription] = useState("");
     const[error, setError] = useState("");
-    const[isDisabled, setIsDisabled] = useState(true);
+    const[success, setSuccess] = useState(false);
     const[message, setMessage] = useState("");
     const navigate = useNavigate();
-    //const[products, setProducts] = useState(JSON.parse(localStorage.getItem("products")) || []);
-    const productsRef = collection(db, "products");
+    const {id} = useParams();
 
-    const createProduct = async (productData) => {
+    const fetchProduct = async (id) => {
         try {
-            const productRef = await addDoc(productsRef, productData);
-            return productRef;
-        }
-        catch (error) {
-            console.error("Error al agregar el producto:", error);
-            setError("Error al agregar el producto.");
+            const productRef = doc(db, "products", id);
+            const productSnap = await getDoc(productRef);
+            if (productSnap.exists()) {
+                const data = productSnap.data();
+                setProductName(data.name);
+                setProductPrice(data.price);
+                setProductDescription(data.description);
+            } else {
+                setError("Producto no encontrado.");
+            }
+        } catch (error) {
+            console.error("Error al recuperar el producto:", error);
+            setError("Error al recuperar el producto.");
         }
     }
 
+    useEffect(() => {
+        fetchProduct(id);
+    }, [id]);
+
     const handleProductNameChange = (e) => {
         setProductName(e.target.value);
-        //console.log(productName);
     }
 
     const handleProductPriceChange = (e) => {
         setProductPrice(Number(e.target.value));
-        //console.log(Number(productPrice));
     }
     const handleProductDescriptionChange = (e) => {
         setProductDescription(e.target.value);
-        //console.log(productDescription);
     }
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        event.preventDefault();
         setError("");
+        setSuccess("");
         
         if (!productName || !productPrice || !productDescription) {
             setError("Faltan completar campos.");
@@ -64,50 +71,29 @@ const Dashboard = () => {
             return;
         }
 
-        const newProduct = {
-            name: productName,
-            price: productPrice,
-            description: productDescription,
-            sku: generateSimpleSKU()
-        };
-
-        //console.log("Producto agregado:", newProduct);
-        //setProducts([...products, newProduct]);
-        //localStorage.setItem("products", JSON.stringify([...products, newProduct]));
         try {
-            await createProduct(newProduct);
-            setMessage("Producto agregado exitosamente. Redirigiendo al home...");
-            setProductName("");
-            setProductPrice("");
-            setProductDescription("");
+            const docRef = doc(db, "products", id);
+            await updateDoc(docRef, {
+                name: productName,
+                price: productPrice,
+                description: productDescription
+            });
+            setMessage("Producto editado exitosamente. Redirigiendo al home...");
             setTimeout(() => {
-                setMessage("");
                 navigate("/");
-            }, 3000);
+            }, 2000);
         } catch (error) {
-            setError(error.message);
-            return;
+            console.error("Error al editar el producto:", error);
+            setError("Error al editar el producto.");
         }
-        
     }
-
-    useEffect(() => {
-        if (productName && productPrice && productDescription) {
-            setIsDisabled(false);
-        }
-        else {
-            setIsDisabled(true);
-        }
-    }, [productName, productPrice, productDescription]);
-
-    //console.log({ productName, productPrice, productDescription });
 
     return (
         <>
             <Layout>
                 <section id="admin-section">
-                    <h1>Bienvenido al panel de administración.</h1>
-                    <p>Desde aquí puedes gestionar todos tus productos.</p>
+                    <h1>Panel de Edicion del Producto.</h1>
+                    <p>Editar el producto con ID: {id}</p>
                         <form onSubmit={handleSubmit}>
                             <label htmlFor="productName">Nombre del Producto:</label>
                             <input type="text" id="productName" name="productName" onChange={handleProductNameChange} value={productName} />
@@ -118,7 +104,7 @@ const Dashboard = () => {
                             <label htmlFor="productDescription">Descripción del Producto:</label>
                             <textarea id="productDescription" name="productDescription" onChange={handleProductDescriptionChange} value={productDescription} ></textarea>
 
-                            <button disabled={isDisabled} style={{ backgroundColor: isDisabled && "grey", cursor: isDisabled && "not-allowed" }}>Agregar Producto</button>
+                            <button>Producto Editado</button>
                             {error && <p style={{ color: "red" }}>{error}</p>}
                             {message && <p style={{ color: "green" }}>{message}</p>}
                         </form>
@@ -128,4 +114,4 @@ const Dashboard = () => {
     );
 }
 
-export default Dashboard;
+export default EditProduct;

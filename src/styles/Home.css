@@ -10,9 +10,13 @@ header nav ul {
     justify-content: end;
 }
 
+header nav ul li:first-child {
+    margin-right: auto;
+}
+
 header nav ul li a {
     text-decoration: none;
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 header nav ul li a:hover {
@@ -21,6 +25,8 @@ header nav ul li a:hover {
 
 main {
     background-color: lightgreen;
+    width: 100%;
+    min-height: 100vh;
 }
 
 main .banner {
@@ -59,7 +65,8 @@ main .productList {
     transition: transform 0.3s;
 }
 
-.product button:hover {
+.product button:hover,
+.product a:hover {
     transform: scale(0.9);
 }
 

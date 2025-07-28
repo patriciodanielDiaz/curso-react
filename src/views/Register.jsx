@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import Layout from '../components/Layout/Layout';
 import '../styles/Register.css';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
     const[confirmPassword, setConfirmPassword] = useState("");
     const[error, setError] = useState("");
+    const[success, setSuccess] = useState("");
     const[isDisabled, setIsDisabled] = useState(true);
+    const navigate = useNavigate();
+    const { register } = useAuth();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -21,9 +26,10 @@ const Register = () => {
         setConfirmPassword(e.target.value);
     }
 
-    const handlerSubmit = (e) => {
+    const handlerSubmit = async (e) => {
         e.preventDefault();
-        setError("");
+        setError(null);
+        setSuccess(null);
 
         if (!email || !password || !confirmPassword) {
             setError("Faltan completar campos.");
@@ -40,17 +46,28 @@ const Register = () => {
             return;
         }
 
-        const newUser = {
-            email: email,
-            password: password,
-            confirmPassword: confirmPassword
-        };
+        try {
+            await register(email, password);
+
+            setSuccess("Usuario registrado con exito");
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+
+            setTimeout(() => {
+                setSuccess("Redirigiendo a la página de inicio...");
+            }, 2000);
+
+            setTimeout(() => {
+                navigate("/");
+            }, 3000);
+
+        } catch (error) {
+            setError("Error al registrar el usuario: " + error.message);
+            return;
+        }
         console.log("Usuario registrado:", newUser);
-        setEmail("");
-        setPassword("");
-        setConfirmPassword("");
         setIsDisabled(true);
-        alert("Usuario registrado exitosamente");
     }
 
     useEffect(() => {
@@ -77,7 +94,8 @@ const Register = () => {
                         <input type="password" id="confirmPassword" name="confirmPassword" onChange={handleConfirmPasswordChange} value={confirmPassword} />
 
                         <button disabled={isDisabled} style={{ backgroundColor: isDisabled && "grey", cursor: isDisabled && "not-allowed" }}>Registrar</button>
-                        {error && <p style={{ color: "red" }}>{error}</p>}
+                        <h5 className="error-message">{error}</h5>
+                        <h5 className="success-message">{success}</h5>
                     </form>
                 </section>
             </Layout>
