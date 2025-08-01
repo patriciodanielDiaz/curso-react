@@ -11,7 +11,7 @@
 
 #admin-section p {
   text-align: center;
-  color: #969696;
+  color: #000000;
   margin-top: 10px;
 }
 
@@ -37,7 +37,7 @@
     margin-top: 5px;
     border-radius: 10px;
     border: none;
-    border: 1px solid #c7c7c7;
+    border: 1px solid #000000;
 }
 
 #admin-section form button{
@@ -46,7 +46,7 @@
     padding: 8px 16px;
     background-color: yellowgreen;
     border-radius: 10px;
-    color: white;
+    color: rgb(0, 0, 0);
     cursor:pointer;
 }
 

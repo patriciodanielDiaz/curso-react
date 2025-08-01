@@ -4,6 +4,7 @@ import { db } from "../../config/firebase";
 import { collection ,getDocs, deleteDoc, doc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import Banner from "../Banner/Banner";
 
 const Main = () => {
 
@@ -48,8 +49,7 @@ const Main = () => {
     return (
         <main>
             <section className='banner'>
-              <h1>Bienvenidos a la tienda</h1>
-              <h1>Ofertas especiales</h1>
+              <Banner />
             </section>
             <section className='productList'>
               {error && <p>{error}</p>}

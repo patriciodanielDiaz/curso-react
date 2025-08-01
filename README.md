@@ -1,12 +1,66 @@
-# React + Vite
+# Ecommerce React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este es un proyecto de ecommerce desarrollado con React, Firebase y Vite.
 
-Currently, two official plugins are available:
+## Usuario de prueba
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Email:** patricio.diaz@gmail.com.ar
+- **Contraseña:** 123456
 
-## Expanding the ESLint configuration
+## Instalación y ejecución
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Desarrollo local
+
+```bash
+npm install
+npm run dev
+```
+
+### Con Docker
+
+Este proyecto incluye configuración de Docker para facilitar el desarrollo y despliegue.
+
+#### Comandos disponibles
+
+**Construir y ejecutar en modo desarrollo:**
+```bash
+docker compose up --build
+```
+
+**Ejecutar en segundo plano:**
+```bash
+docker-compose up -d
+```
+
+**Detener los contenedores:**
+```bash
+docker-compose down
+```
+
+**Ver logs:**
+```bash
+docker-compose logs -f frontend
+```
+
+**Reconstruir sin caché:**
+```bash
+docker-compose build --no-cache
+```
+
+La aplicación estará disponible en `http://localhost:3000`
+
+## Características
+
+- Autenticación con Firebase Auth
+- Base de datos Firestore
+- CRUD de productos
+- Panel de administración
+- Responsive design
+
+## Tecnologías utilizadas
+
+- React 19
+- React Router DOM
+- Firebase (Auth + Firestore)
+- Vite
+- Docker
